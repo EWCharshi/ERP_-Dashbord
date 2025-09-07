@@ -1,6 +1,6 @@
 import { Routes, Route } from 'react-router-dom'
 import { useState, useEffect } from 'react'
-import Navbar from './components/Navbar'
+import NavLine from './components/Common/navline'
 import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
 import Inventory from './pages/Inventory'
@@ -36,7 +36,7 @@ function App() {
 
   return (
     <div className="app">
-      <Navbar onLogout={handleLogout} />
+      <NavLine onLogout={handleLogout} />
       <Routes>
         <Route path="/" element={<Dashboard />} />
         <Route path="/dashboard" element={<Dashboard />} />

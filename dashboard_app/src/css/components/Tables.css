@@ -92,6 +92,32 @@
   gap: 0.5rem;
 }
 
+/* Department Column Width */
+.table th:first-child,
+.table td:first-child {
+  width: 40%;
+  min-width: 200px;
+  padding-right: 0.25rem;
+}
+
+.table th:not(:first-child),
+.table td:not(:first-child) {
+  width: 20%;
+  min-width: 80px;
+  padding-left: 0.25rem;
+}
+
+/* Remove gap between department and INQ columns */
+.table th:nth-child(2),
+.table td:nth-child(2) {
+  padding-left: 0.1rem;
+}
+
+.table th:first-child,
+.table td:first-child {
+  padding-right: 0.1rem;
+}
+
 /* Status Badges */
 .status-badge {
   display: inline-block;
@@ -347,13 +373,20 @@
   }
   
   .table {
-    min-width: 600px;
+    min-width: 100%;
+    font-size: 0.85rem;
+  }
+  
+  .table th,
+  .table td {
+    padding: 0.3rem 0.2rem;
   }
   
   .table-header {
     flex-direction: column;
     gap: 1rem;
     align-items: stretch;
+    padding: 1rem;
   }
   
   .table-actions {
@@ -362,6 +395,7 @@
   
   .table-filters {
     flex-direction: column;
+    padding: 0.75rem;
   }
   
   .filter-group {
@@ -371,27 +405,141 @@
   .table-pagination {
     flex-direction: column;
     gap: 1rem;
+    padding: 0.75rem;
   }
   
   .pagination-controls {
     flex-wrap: wrap;
     justify-content: center;
   }
+  
+  /* Tablet department column optimization */
+  .department-column {
+    width: 45%;
+    min-width: 150px;
+  }
+  
+  .table th:not(.department-column),
+  .table td:not(.department-column) {
+    width: 18.33%;
+    min-width: 60px;
+  }
 }
 
 @media (max-width: 480px) {
   .table th,
   .table td {
-    padding: 0.75rem 0.5rem;
+    padding: 0;
+  }
+  
+  .table-header {
+    padding: 0.5rem;
+  }
+  
+  .table-pagination {
+    padding: 0.5rem;
+  }
+  
+  .table-filters {
+    padding: 0.5rem;
+  }
+  
+  .table-empty {
+    padding: 1rem;
+  }
+  
+  .table-loading {
+    padding: 1rem;
   }
   
   .table-actions-cell {
     flex-direction: column;
-    gap: 0.25rem;
+    gap: 0rem;
   }
   
   .action-btn {
     padding: 0.25rem 0.5rem;
     font-size: 0.75rem;
+  }
+  
+  /* Finance page specific mobile styles */
+  .card-body {
+    padding: 0.5rem !important;
+  }
+  
+  .card-header {
+    padding: 0.75rem !important;
+  }
+  
+  .table-responsive {
+    margin: -0.5rem;
+  }
+  
+  .table-responsive .table {
+    margin-bottom: 0;
+  }
+  
+  /* Mobile table optimization */
+  .table {
+    font-size: 0.8rem;
+    min-width: 100%;
+  }
+  
+  .table th,
+  .table td {
+    padding: 0.25rem 0.1rem;
+    white-space: nowrap;
+  }
+  
+  /* Department column mobile optimization */
+  .department-column {
+    width: 50%;
+    min-width: 120px;
+  }
+  
+  .table th:not(.department-column),
+  .table td:not(.department-column) {
+    width: 16.67%;
+    min-width: 50px;
+    text-align: center;
+  }
+  
+  /* Ensure all data is visible */
+  .table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Compact text for mobile */
+  .table td span {
+    font-size: 0.75rem;
+  }
+  
+  .table th {
+    font-size: 0.7rem;
+    padding: 0.2rem 0.1rem;
+  }
+  
+  /* Mobile data visibility optimization */
+  .table td .d-flex {
+    gap: 0.25rem;
+  }
+  
+  .table td .d-flex .rounded-circle {
+    width: 8px !important;
+    height: 8px !important;
+  }
+  
+  .table td .fw-semibold {
+    font-size: 0.7rem;
+    font-weight: 600;
+  }
+  
+  /* Ensure numbers are visible */
+  .table td .text-success,
+  .table td .text-danger,
+  .table td .text-primary {
+    font-size: 0.7rem;
+    font-weight: 600;
   }
 }
