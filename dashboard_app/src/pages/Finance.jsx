@@ -11,31 +11,6 @@ const Finance = () => {
   const [showMonthlyDropdown, setShowMonthlyDropdown] = useState(false);
   const [showDailyDropdown, setShowDailyDropdown] = useState(false);
 
-  // Sample financial data
-  const financialData = {
-    totalRevenue: 125000,
-    totalExpenses: 85000,
-    netProfit: 40000,
-    monthlyGrowth: 12.5,
-    quarterlyGrowth: 8.3,
-    profitMargin: 32
-  };
-
-  const recentTransactions = [
-    { id: 1, description: 'Product Sales', amount: 15000, type: 'income', date: '2024-01-15', status: 'completed', category: 'Sales' },
-    { id: 2, description: 'Office Rent', amount: 5000, type: 'expense', date: '2024-01-14', status: 'completed', category: 'Rent' },
-    { id: 3, description: 'Equipment Purchase', amount: 8000, type: 'expense', date: '2024-01-13', status: 'pending', category: 'Equipment' },
-    { id: 4, description: 'Service Revenue', amount: 12000, type: 'income', date: '2024-01-12', status: 'completed', category: 'Services' },
-    { id: 5, description: 'Marketing Campaign', amount: 3000, type: 'expense', date: '2024-01-11', status: 'completed', category: 'Marketing' }
-  ];
-
-  const budgetData = [
-    { category: 'Marketing', spent: 8500, budget: 10000, color: 'primary' },
-    { category: 'Operations', spent: 12000, budget: 15000, color: 'success' },
-    { category: 'Equipment', spent: 18000, budget: 15000, color: 'danger' },
-    { category: 'Travel', spent: 3200, budget: 5000, color: 'warning' }
-  ];
-
   // Monthly comparison data
   const monthlyData = [
     { month: 'May 2025', inquiries: 386, color: 'primary' },
@@ -147,24 +122,7 @@ const Finance = () => {
   return (
     <div className="page">
       <div className="container-fluid py-4">
-        {/* Page Header */}
-        <div className="row mb-4">
-          <div className="col-12">
-              <div className="d-flex justify-content-between align-items-center">
-                <div>
-                  
-                </div>
-              <div>
-                <button className="btn btn-primary me-2">
-                  <i className="bi bi-plus-circle me-1"></i>Add Transaction
-                </button>
-                <button className="btn btn-outline-secondary">
-                  <i className="bi bi-download me-1"></i>Export Report
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+        
 
         {/* Financial Summary Cards */}
         <div className="row mb-4">
@@ -239,40 +197,7 @@ const Finance = () => {
           </div>
         </div>
 
-        {/* Navigation Tabs */}
-        <div className="row mb-4">
-          <div className="col-12">
-            <ul className="nav nav-tabs" id="financeTabs" role="tablist">
-              <li className="nav-item" role="presentation">
-                <button
-                  className={`nav-link ${activeTab === 'overview' ? 'active' : ''}`}
-                  onClick={() => setActiveTab('overview')}
-                  type="button"
-                >
-                  <i className="bi bi-graph-up me-2"></i>Overview
-                </button>
-              </li>
-              <li className="nav-item" role="presentation">
-                <button
-                  className={`nav-link ${activeTab === 'transactions' ? 'active' : ''}`}
-                  onClick={() => setActiveTab('transactions')}
-                  type="button"
-                >
-                  <i className="bi bi-list-ul me-2"></i>Transactions
-                </button>
-              </li>
-              <li className="nav-item" role="presentation">
-                <button
-                  className={`nav-link ${activeTab === 'budgets' ? 'active' : ''}`}
-                  onClick={() => setActiveTab('budgets')}
-                  type="button"
-                >
-                  <i className="bi bi-wallet2 me-2"></i>Budgets
-                </button>
-              </li>
-            </ul>
-          </div>
-        </div>
+        
 
         {/* Monthly Comparison Section */}
         <div className="row mb-4">
@@ -338,7 +263,7 @@ const Finance = () => {
                   <table className="table table-hover mb-0">
                     <thead className="table-light">
                       <tr>
-                        <th>Department</th>
+                        <th className="department-column">Department</th>
                         <th className="text-end">Inq</th>
                         <th className="text-end">Apt</th>
                         <th className="text-end">Jobs</th>
@@ -400,129 +325,7 @@ const Finance = () => {
           </div>
         </div>
 
-        {/* Tab Content */}
-        <div className="tab-content" id="financeTabContent">
-          {/* Overview Tab */}
-          {activeTab === 'overview' && (
-            <div className="row">
-              <div className="col-lg-8 mb-4">
-                <ChartCard title="Revenue vs Expenses Trend">
-                  <div className="text-center py-5">
-                    <i className="bi bi-bar-chart text-muted" style={{ fontSize: '4rem' }}></i>
-                    <p className="text-muted mt-3">Interactive chart visualization will be implemented here</p>
-                    <div className="row mt-4">
-                      <div className="col-6">
-                        <div className="text-center">
-                          <h4 className="text-success">$125,000</h4>
-                          <small className="text-muted">Total Revenue</small>
-                        </div>
-                      </div>
-                      <div className="col-6">
-                        <div className="text-center">
-                          <h4 className="text-danger">$85,000</h4>
-                          <small className="text-muted">Total Expenses</small>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </ChartCard>
-              </div>
-              <div className="col-lg-4 mb-4">
-                <div className="card border-0 shadow-sm">
-                  <div className="card-header bg-white border-0">
-                    <h5 className="card-title mb-0">Quick Actions</h5>
-                  </div>
-                  <div className="card-body">
-                    <div className="d-grid gap-2">
-                      <button className="btn btn-outline-primary">
-                        <i className="bi bi-plus-circle me-2"></i>Add Income
-                      </button>
-                      <button className="btn btn-outline-danger">
-                        <i className="bi bi-dash-circle me-2"></i>Add Expense
-                      </button>
-                      <button className="btn btn-outline-secondary">
-                        <i className="bi bi-download me-2"></i>Export Data
-                      </button>
-                      <button className="btn btn-outline-info">
-                        <i className="bi bi-calendar me-2"></i>Set Budget
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* Transactions Tab */}
-          {activeTab === 'transactions' && (
-            <div className="row">
-              <div className="col-12">
-                <div className="card border-0 shadow-sm">
-                  <div className="card-header bg-white border-0">
-                    <div className="d-flex justify-content-between align-items-center">
-                      <h5 className="card-title mb-0">Recent Transactions</h5>
-                      <div className="d-flex gap-2">
-                        <select className="form-select form-select-sm" style={{ width: 'auto' }}>
-                          <option>All Types</option>
-                          <option>Income</option>
-                          <option>Expense</option>
-                        </select>
-                        <button className="btn btn-primary btn-sm">
-                          <i className="bi bi-plus me-1"></i>Add New
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="card-body">
-                    {recentTransactions.map((transaction) => (
-                      <TransactionCard
-                        key={transaction.id}
-                        description={transaction.description}
-                        amount={transaction.amount}
-                        type={transaction.type}
-                        date={transaction.date}
-                        status={transaction.status}
-                        category={transaction.category}
-                      />
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* Budgets Tab */}
-          {activeTab === 'budgets' && (
-            <div className="row">
-              <div className="col-12">
-                <div className="card border-0 shadow-sm">
-                  <div className="card-header bg-white border-0">
-                    <div className="d-flex justify-content-between align-items-center">
-                      <h5 className="card-title mb-0">Budget Management</h5>
-                      <button className="btn btn-primary btn-sm">
-                        <i className="bi bi-plus me-1"></i>Create Budget
-                      </button>
-                    </div>
-                  </div>
-                  <div className="card-body">
-                    <div className="row">
-                      {budgetData.map((budget, index) => (
-                        <div key={index} className="col-md-6 col-lg-3 mb-3">
-                          <BudgetProgressCard
-                            category={budget.category}
-                            spent={budget.spent}
-                            budget={budget.budget}
-                            color={budget.color}
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
+       
       </div>
     </div>
   );
