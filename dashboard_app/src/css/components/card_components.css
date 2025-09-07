@@ -746,11 +746,11 @@
     gap: 0.75rem;
   }
   
-  .card, .metric-card, .status-card, .chart-card, .info-card, .quick-action-card {
+  .card, .metric-card, .status-card, .chart-card, .info-card, .quick-action-card, .finance-metric-card {
     padding: 0.75rem;
   }
   
-  .metric-value, .status-count {
+  .metric-value, .status-count, .finance-metric-value {
     font-size: 1.5rem;
   }
   
@@ -766,6 +766,17 @@
     width: 45px;
     height: 45px;
     font-size: 1.2rem;
+  }
+  
+  .finance-metric-header {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .finance-metric-icon {
+    width: 35px;
+    height: 35px;
+    font-size: 1rem;
   }
 }
 
@@ -796,5 +807,576 @@
     width: 40px;
     height: 40px;
     font-size: 1rem;
+  }
+}
+
+/* Finance Metric Card Styles */
+.finance-metric-card {
+  background: var(--white);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: var(--shadow-primary);
+  border: 1px solid var(--primary-200);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+  margin: 0 auto;
+}
+
+.finance-metric-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--gradient-primary);
+}
+
+.finance-metric-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-primary-hover);
+  border-color: var(--primary-300);
+}
+
+.finance-metric-card-primary::before {
+  background: var(--gradient-primary);
+}
+
+.finance-metric-card-success::before {
+  background: var(--gradient-success);
+}
+
+.finance-metric-card-warning::before {
+  background: var(--gradient-warning);
+}
+
+.finance-metric-card-danger::before {
+  background: var(--gradient-error);
+}
+
+.finance-metric-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.finance-metric-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+}
+
+.finance-metric-card-primary .finance-metric-icon {
+  background: rgba(59, 130, 246, 0.1);
+  color: var(--primary-600);
+}
+
+.finance-metric-card-success .finance-metric-icon {
+  background: rgba(34, 197, 94, 0.1);
+  color: var(--success-600);
+}
+
+.finance-metric-card-warning .finance-metric-icon {
+  background: rgba(245, 158, 11, 0.1);
+  color: var(--warning-600);
+}
+
+.finance-metric-card-danger .finance-metric-icon {
+  background: rgba(239, 68, 68, 0.1);
+  color: var(--error-600);
+}
+
+.finance-metric-title {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--gray-600);
+}
+
+.finance-metric-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--gray-900);
+  margin-bottom: 0.5rem;
+}
+
+.finance-metric-change {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+/* Transaction Card Styles */
+.transaction-card {
+  background: var(--white);
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--gray-200);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  margin-bottom: 0.75rem;
+}
+
+.transaction-card:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-primary);
+  border-color: var(--primary-300);
+}
+
+.transaction-card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.transaction-type-icon {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.125rem;
+}
+
+.transaction-info {
+  flex: 1;
+}
+
+.transaction-description {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--gray-900);
+  margin-bottom: 0.25rem;
+}
+
+.transaction-category {
+  font-size: 0.75rem;
+  color: var(--gray-500);
+}
+
+.transaction-amount {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.transaction-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.transaction-date {
+  font-size: 0.75rem;
+  color: var(--gray-500);
+}
+
+.transaction-status .badge {
+  font-size: 0.625rem;
+  padding: 0.25rem 0.5rem;
+}
+
+/* Budget Progress Card Styles */
+.budget-progress-card {
+  background: var(--white);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: var(--shadow-primary);
+  border: 1px solid var(--primary-200);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.budget-progress-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-primary-hover);
+  border-color: var(--primary-300);
+}
+
+.budget-progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.budget-category {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--gray-900);
+}
+
+.budget-amount {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.budget-progress-bar {
+  width: 100%;
+  height: 8px;
+  background: var(--gray-200);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 0.75rem;
+}
+
+.budget-progress-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.budget-progress-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.budget-percentage {
+  font-size: 0.75rem;
+  color: var(--gray-600);
+}
+
+.budget-over {
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+/* Chart Card Styles */
+.chart-card {
+  background: var(--white);
+  border-radius: 12px;
+  box-shadow: var(--shadow-primary);
+  border: 1px solid var(--primary-200);
+  overflow: hidden;
+}
+
+.chart-card-header {
+  padding: 1.5rem 1.5rem 0 1.5rem;
+  border-bottom: 1px solid var(--gray-200);
+}
+
+.chart-card-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--gray-900);
+  margin: 0;
+}
+
+.chart-card-content {
+  padding: 1.5rem;
+}
+
+/* Inquiry Card Styles - Matching Image Design */
+.inquiry-card {
+  background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 8px 25px rgba(30, 58, 138, 0.3);
+  border: none;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  color: white;
+  text-align: center;
+  min-height: 180px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.inquiry-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 35px rgba(30, 58, 138, 0.4);
+}
+
+.inquiry-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.inquiry-period {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.9);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  text-align: left;
+}
+
+.inquiry-dropdown-container {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.inquiry-dropdown {
+  width: 24px;
+  height: 24px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.inquiry-dropdown-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  min-width: 180px;
+  max-height: 200px;
+  overflow-y: auto;
+  margin-top: 4px;
+}
+
+.inquiry-dropdown-item {
+  padding: 8px 12px;
+  font-size: 0.875rem;
+  color: #374151;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.inquiry-dropdown-item:last-child {
+  border-bottom: none;
+}
+
+.inquiry-dropdown-item:hover {
+  background: #f3f4f6;
+  color: #1e3a8a;
+}
+
+.inquiry-dropdown:hover {
+  background: rgba(10, 14, 15, 0.3);
+  transform: scale(1.1);
+}
+
+.inquiry-dropdown i {
+  font-size: 0.75rem;
+  color: white;
+}
+
+.inquiry-value {
+  font-size: 3.5rem;
+  font-weight: 700;
+  color: white;
+  margin: 1rem 0;
+  line-height: 1;
+  text-align: center;
+}
+
+.inquiry-label {
+  font-size: 1rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-align: center;
+}
+
+.inquiry-underline {
+  width: 40px;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 2px;
+  margin: 0 auto;
+  transition: all 0.3s ease;
+}
+
+.inquiry-card:hover .inquiry-underline {
+  width: 60px;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+/* Monthly Card Variant */
+.inquiry-card-monthly {
+  background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+}
+
+/* Daily Card Variant */
+.inquiry-card-daily {
+  background: linear-gradient(135deg, #1e40af 0%, #2563eb 100%);
+}
+
+/* Monthly Performance Layout */
+.monthly-performance-item {
+  width: 100%;
+}
+
+.monthly-performance-content {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.monthly-performance-left {
+  flex: 1;
+  text-align: left;
+}
+
+.monthly-performance-right {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.monthly-performance-right .progress {
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.monthly-performance-right .progress-bar {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+/* Responsive Design for Inquiry Cards */
+@media (max-width: 768px) {
+  .inquiry-card {
+    padding: 1rem;
+    min-height: 160px;
+  }
+  
+  .inquiry-value {
+    font-size: 2.5rem;
+  }
+  
+  .inquiry-label {
+    font-size: 0.9rem;
+  }
+  
+  .inquiry-period {
+    font-size: 0.8rem;
+  }
+  
+  /* Mobile 2-column layout */
+  .row .col-sm-6 {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+  
+  /* Monthly Performance Mobile Layout */
+  .monthly-performance-content {
+    flex-direction: row;
+    gap: 0.75rem;
+  }
+  
+  .monthly-performance-left {
+    flex: 1;
+    text-align: left;
+  }
+  
+  .monthly-performance-right {
+    flex: 1;
+    min-width: 60px;
+  }
+  
+  .monthly-performance-left h6 {
+    font-size: 0.8rem;
+    margin-bottom: 0.25rem;
+  }
+  
+  .monthly-performance-left h4 {
+    font-size: 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .inquiry-card {
+    padding: 0.75rem;
+    min-height: 140px;
+  }
+  
+  .inquiry-value {
+    font-size: 2rem;
+  }
+  
+  .inquiry-label {
+    font-size: 0.8rem;
+  }
+  
+  .inquiry-period {
+    font-size: 0.75rem;
+  }
+  
+  /* Small mobile 2-column layout */
+  .row .col-6 {
+    padding-left: 0.25rem;
+    padding-right: 0.25rem;
+  }
+  
+  .inquiry-card-header {
+    margin-bottom: 0.75rem;
+  }
+  
+  .inquiry-dropdown {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .inquiry-dropdown i {
+    font-size: 0.7rem;
+  }
+  
+  /* Monthly Performance Small Mobile Layout */
+  .monthly-performance-content {
+    flex-direction: row;
+    gap: 0.5rem;
+    align-items: center;
+  }
+  
+  .monthly-performance-left {
+    flex: 1;
+    text-align: left;
+  }
+  
+  .monthly-performance-right {
+    flex: 1;
+    min-width: 50px;
+  }
+  
+  .monthly-performance-left h6 {
+    font-size: 0.75rem;
+    margin-bottom: 0.25rem;
+  }
+  
+  .monthly-performance-left h4 {
+    font-size: 1rem;
+  }
+  
+  .monthly-performance-right .progress {
+    height: 6px !important;
+    background-color: rgba(0, 0, 0, 0.15) !important;
+  }
+  
+  .monthly-performance-right .progress-bar {
+    border-radius: 3px !important;
   }
 }

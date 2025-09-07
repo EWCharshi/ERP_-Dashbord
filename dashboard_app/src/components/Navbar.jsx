@@ -26,14 +26,44 @@ const Navbar = ({ onLogout }) => {
           <ul className="navbar-menu">
             <li className="navbar-item">
               <Link
+                to="/"
+                className={`navbar-link ${isActive('/') ? 'active' : ''}`}
+              >
+                Dashboard
+              </Link>
+            </li>
+            <li className="navbar-item">
+              <Link
+                to="/inventory"
+                className={`navbar-link ${isActive('/inventory') ? 'active' : ''}`}
+              >
+                Inventory
+              </Link>
+            </li>
+            <li className="navbar-item">
+              <Link
+                to="/sales"
+                className={`navbar-link ${isActive('/sales') ? 'active' : ''}`}
+              >
+                Sales
+              </Link>
+            </li>
+            <li className="navbar-item">
+              <Link
                 to="/finance"
                 className={`navbar-link ${isActive('/finance') ? 'active' : ''}`}
               >
                 Finance
               </Link>
             </li>
-            
-            
+            <li className="navbar-item">
+              <Link
+                to="/reports"
+                className={`navbar-link ${isActive('/reports') ? 'active' : ''}`}
+              >
+                Reports
+              </Link>
+            </li>
           </ul>
         </nav>
 
