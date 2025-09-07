@@ -23,18 +23,18 @@ const Navbar = ({ onLogout }) => {
         </div>
 
         <nav className="navbar-nav">
-          {/* <ul className="navbar-menu">
+          <ul className="navbar-menu">
             <li className="navbar-item">
               <Link
-                to="/Dashboard"
-                className={`navbar-link ${isActive('/') ? 'active' : ''}`}
+                to="/finance"
+                className={`navbar-link ${isActive('/finance') ? 'active' : ''}`}
               >
-                
+                Finance
               </Link>
             </li>
             
             
-          </ul> */}
+          </ul>
         </nav>
 
         <div className="navbar-user">
