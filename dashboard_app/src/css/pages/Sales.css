@@ -1,0 +1,127 @@
+/* Sales Page Styles */
+@import '../styles/colors.css';
+
+.sales-page {
+  padding: 2rem;
+  background: var(--secondary-50);
+  min-height: 100vh;
+}
+
+.sales-header {
+  margin-bottom: 2rem;
+}
+
+.sales-title {
+  color: var(--primary-800);
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.sales-subtitle {
+  color: var(--secondary-600);
+  font-size: 1rem;
+}
+
+.sales-content {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.sales-main {
+  background: var(--white);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: var(--shadow-primary);
+  border: 1px solid var(--primary-200);
+}
+
+.sales-sidebar {
+  background: var(--white);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: var(--shadow-primary);
+  border: 1px solid var(--primary-200);
+  height: fit-content;
+}
+
+.sales-metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.metric-card {
+  background: var(--white);
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: var(--shadow-primary);
+  border: 1px solid var(--primary-200);
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.metric-card:hover {
+  transform: translateY(-2px);
+}
+
+.metric-value {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--primary-800);
+  margin-bottom: 0.5rem;
+}
+
+.metric-label {
+  color: var(--secondary-600);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.metric-change {
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  margin-top: 0.5rem;
+  display: inline-block;
+}
+
+.metric-change-positive {
+  color: var(--success);
+  background-color: var(--success-light);
+}
+
+.metric-change-negative {
+  color: var(--error);
+  background-color: var(--error-light);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .sales-page {
+    padding: 1rem;
+  }
+  
+  .sales-content {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .sales-metrics {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .sales-metrics {
+    grid-template-columns: 1fr;
+  }
+  
+  .sales-title {
+    font-size: 1.5rem;
+  }
+}

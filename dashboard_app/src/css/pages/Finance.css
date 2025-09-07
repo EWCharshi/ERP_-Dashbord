@@ -1,0 +1,148 @@
+/* Finance Page Styles */
+@import '../styles/colors.css';
+
+.finance-page {
+  padding: 2rem;
+  background: var(--secondary-50);
+  min-height: 100vh;
+}
+
+.finance-header {
+  margin-bottom: 2rem;
+}
+
+.finance-title {
+  color: var(--primary-800);
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.finance-subtitle {
+  color: var(--secondary-600);
+  font-size: 1rem;
+}
+
+.finance-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.finance-main {
+  background: var(--white);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: var(--shadow-primary);
+  border: 1px solid var(--primary-200);
+}
+
+.finance-sidebar {
+  background: var(--white);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: var(--shadow-primary);
+  border: 1px solid var(--primary-200);
+  height: fit-content;
+}
+
+.finance-overview {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.overview-card {
+  background: var(--white);
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: var(--shadow-primary);
+  border: 1px solid var(--primary-200);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.overview-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--gradient-primary);
+}
+
+.overview-card.income::before {
+  background: var(--gradient-success);
+}
+
+.overview-card.expense::before {
+  background: var(--gradient-error);
+}
+
+.overview-card.profit::before {
+  background: var(--gradient-warning);
+}
+
+.overview-value {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--primary-800);
+  margin-bottom: 0.5rem;
+}
+
+.overview-label {
+  color: var(--secondary-600);
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.overview-change {
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  margin-top: 0.5rem;
+  display: inline-block;
+}
+
+.overview-change-positive {
+  color: var(--success);
+  background-color: var(--success-light);
+}
+
+.overview-change-negative {
+  color: var(--error);
+  background-color: var(--error-light);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .finance-page {
+    padding: 1rem;
+  }
+  
+  .finance-content {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .finance-overview {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .finance-overview {
+    grid-template-columns: 1fr;
+  }
+  
+  .finance-title {
+    font-size: 1.5rem;
+  }
+}

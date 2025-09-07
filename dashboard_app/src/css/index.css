@@ -1,0 +1,23 @@
+/* Main CSS Index - Import All Component Styles */
+@import './styles/colors.css';
+@import './styles/global.css';
+@import './styles/animations.css';
+
+/* Component Styles */
+@import './components/App.css';
+@import './components/Common.css';
+@import './components/Navbar.css';
+@import './components/card_components.css';
+@import './components/Forms.css';
+@import './components/Tables.css';
+@import './components/Modals.css';
+@import './components/Charts.css';
+@import './components/Notifications.css';
+
+/* Page Styles */
+@import './pages/Page.css';
+@import './pages/Login.css';
+@import './pages/Inventory.css';
+@import './pages/Sales.css';
+@import './pages/Finance.css';
+@import './pages/Reports.css';
