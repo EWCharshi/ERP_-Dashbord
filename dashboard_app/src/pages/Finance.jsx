@@ -1,13 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../css/pages/Page.css'
 import '../css/pages/Finance.css'
-import { FinanceMetricCard, TransactionCard, BudgetProgressCard, ChartCard } from '../components/Dashboard/card_components'
-import CRMNavbar from '../components/Common/mainlink'
+// Removed unused imports
 
 const Finance = () => {
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState('overview');
+  // Removed unused activeTab state
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [dateRange, setDateRange] = useState('month'); // 'day', 'week', 'month', 'quarter', 'year'
   const [showMonthlyDropdown, setShowMonthlyDropdown] = useState(false);
@@ -19,12 +18,16 @@ const Finance = () => {
   const [error, setError] = useState(null);
 
   // Fallback data for when API fails
-  const getFallbackData = () => ({
-    scope: "month",
-    period: {
-      month: "2025-06",
-      label: "Jun, 2025"
-    },
+  const getFallbackData = () => {
+    const monthString = selectedDate.toISOString().slice(0, 7); // YYYY-MM format
+    const monthLabel = selectedDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+    
+    return {
+      scope: "month",
+      period: {
+        month: monthString,
+        label: monthLabel
+      },
     widgets: {
       inquiries_month_total: 2195,
       inquiries_day_total: null
@@ -116,10 +119,11 @@ const Finance = () => {
         jobs_done: 260
       }
     }
-  });
+    };
+  };
 
   // API call function
-  const fetchFinanceData = async (scope = 'month', month = null) => {
+  const fetchFinanceData = useCallback(async (scope = 'month', month = null) => {
     setLoading(true);
     setError(null);
     
@@ -146,7 +150,11 @@ const Finance = () => {
       }
       
       const data = await response.json();
-      setApiData(data.data);
+      if (data.status === 'success' && data.data) {
+        setApiData(data.data);
+      } else {
+        throw new Error(data.message || 'Invalid response format');
+      }
     } catch (err) {
       console.error('Error fetching finance data:', err);
       setError(err.message);
@@ -155,7 +163,7 @@ const Finance = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   // Generate month options for dropdown
   const generateMonthOptions = () => {
@@ -265,7 +273,7 @@ const Finance = () => {
   useEffect(() => {
     const monthString = selectedDate.toISOString().slice(0, 7); // YYYY-MM format
     fetchFinanceData(dateRange, monthString);
-  }, [selectedDate, dateRange]);
+  }, [selectedDate, dateRange, fetchFinanceData]);
 
   // Close dropdowns when clicking outside
   useEffect(() => {
@@ -296,14 +304,23 @@ const Finance = () => {
           </div>
         )}
         
-        {!loading && (
+        {!loading && !apiData && (
+          <div className="text-center py-5">
+            <div className="text-muted">
+              <i className="bi bi-inbox fs-1"></i>
+              <p className="mt-2">No data available</p>
+            </div>
+          </div>
+        )}
+
+        {!loading && apiData && (
           <>
             {error && (
               <div className="alert alert-info" role="alert">
                 <div className="d-flex justify-content-between align-items-center">
                   <div>
                     <i className="bi bi-info-circle me-2"></i>
-                    <strong>Offline Mode:</strong> Showing sample data. API connection failed.
+                    <strong>Demo Mode:</strong> Showing sample data. API connection unavailable.
                     <br />
                     <small className="text-muted">Error: {error}</small>
                   </div>
@@ -365,8 +382,6 @@ const Finance = () => {
                   <div className="spinner-border spinner-border-sm" role="status">
                     <span className="visually-hidden">Loading...</span>
                   </div>
-                ) : error ? (
-                  <span className="text-danger">Error</span>
                 ) : (
                   apiData?.widgets?.inquiries_month_total || 0
                 )}
@@ -423,8 +438,6 @@ const Finance = () => {
                   <div className="spinner-border spinner-border-sm" role="status">
                     <span className="visually-hidden">Loading...</span>
                   </div>
-                ) : error ? (
-                  <span className="text-danger">Error</span>
                 ) : (
                   apiData?.widgets?.inquiries_day_total || 0
                 )}
