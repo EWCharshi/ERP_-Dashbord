@@ -857,6 +857,10 @@
   background: var(--gradient-error);
 }
 
+.finance-metric-card-pink::before {
+  background: var(--gradient-pink);
+}
+
 .finance-metric-header {
   display: flex;
   align-items: center;
@@ -893,6 +897,11 @@
 .finance-metric-card-danger .finance-metric-icon {
   background: rgba(239, 68, 68, 0.1);
   color: var(--error-600);
+}
+
+.finance-metric-card-pink .finance-metric-icon {
+  background: rgba(236, 72, 153, 0.1);
+  color: var(--accent-pink);
 }
 
 .finance-metric-title {
@@ -1220,6 +1229,27 @@
 /* Daily Card Variant */
 .inquiry-card-daily {
   background: linear-gradient(135deg, #1e40af 0%, #2563eb 100%);
+}
+
+/* Pink Card Variants */
+.inquiry-card-pink {
+  background: linear-gradient(135deg, var(--accent-pink) 0%, var(--accent-pink-light) 100%);
+  box-shadow: 0 8px 25px rgba(236, 72, 153, 0.3);
+}
+
+.inquiry-card-pink:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 35px rgba(241, 133, 187, 0.4);
+}
+
+.inquiry-card-pink .inquiry-dropdown:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.1);
+}
+
+.inquiry-card-pink:hover .inquiry-underline {
+  width: 60px;
+  background: rgba(255, 255, 255, 0.9);
 }
 
 /* Monthly Performance Layout */

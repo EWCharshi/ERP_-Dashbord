@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom'
 import '../css/pages/Page.css'
 import { Card, QuickActionCard } from '../components/Dashboard/card_components'
 import { 
@@ -8,42 +9,49 @@ import {
 } from 'lucide-react'
 
 const Dashboard = () => {
+  const navigate = useNavigate()
+
   // Quick Action Cards Data
   const quickActions = [
     { 
       icon: <Compass  size={32} />, 
       title: "CRM", 
       description: "Customer Management",
-      color: "primary" 
+      color: "primary",
+      path: "/finance"
     },
     { 
       icon: <Calendar1 size={32} />, 
       title: "JOB CARDS", 
       description: "Job Management",
-      color: "pink" 
+      color: "pink",
+      path: "/inventory"
     },
     { 
       icon: <BadgeDollarSign size={32} />, 
       title: "SALES", 
       description: "Sales Analytics",
-      color: "warning" 
+      color: "warning",
+      path: "/sales"
     },
     { 
       icon: <CircleUserRound  size={32} />, 
       title: "HRM", 
       description: "Human Resources",
-      color: "success" 
+      color: "success",
+      path: "/hrm"
     },
-    
+   
   ]
+
+  const handleCardClick = (path) => {
+    navigate(path)
+  }
 
 
   return (
     <div className="page">
-      
-      
       <div className="page-content mt-4">
-      
         <div className="cards-grid cards-grid-3 mt-4">
           {quickActions.map((action, index) => (
             <QuickActionCard
@@ -52,7 +60,7 @@ const Dashboard = () => {
               title={action.title}
               description={action.description}
               color={action.color}
-              onClick={() => console.log(`Clicked ${action.title}`)}
+              onClick={() => handleCardClick(action.path)}
             />
           ))}
         </div>

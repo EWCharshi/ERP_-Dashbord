@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../css/pages/Page.css'
 import '../css/pages/Finance.css'
 import { FinanceMetricCard, TransactionCard, BudgetProgressCard, ChartCard } from '../components/Dashboard/card_components'
 import CRMNavbar from '../components/Common/mainlink'
 
 const Finance = () => {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('overview');
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [dateRange, setDateRange] = useState('month'); // 'day', 'week', 'month', 'quarter', 'year'
@@ -127,13 +129,20 @@ const Finance = () => {
         {/* Financial Summary Cards */}
         <div className="row mb-4">
           <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 mb-3">
-            <div className="inquiry-card inquiry-card-monthly">
+            <div 
+              className="inquiry-card inquiry-card-monthly"
+              onClick={() => navigate('/sales')}
+              style={{ cursor: 'pointer' }}
+            >
               <div className="inquiry-card-header">
                 <div className="inquiry-period">{formatDateDisplay()}</div>
                 <div className="inquiry-dropdown-container">
                   <div 
                     className="inquiry-dropdown"
-                    onClick={() => setShowMonthlyDropdown(!showMonthlyDropdown)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setShowMonthlyDropdown(!showMonthlyDropdown);
+                    }}
                   >
                     <i className="bi bi-chevron-down"></i>
                   </div>
@@ -143,7 +152,10 @@ const Finance = () => {
                         <div 
                           key={index}
                           className="inquiry-dropdown-item"
-                          onClick={() => handleMonthSelection(month.value)}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleMonthSelection(month.value);
+                          }}
                         >
                           {month.label}
                         </div>
@@ -158,7 +170,11 @@ const Finance = () => {
             </div>
           </div>
           <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 mb-3">
-            <div className="inquiry-card inquiry-card-daily">
+            <div 
+              className="inquiry-card inquiry-card-daily"
+              onClick={() => navigate('/sales')}
+              style={{ cursor: 'pointer' }}
+            >
               <div className="inquiry-card-header">
                 <div className="inquiry-period">
                   {selectedDate.toLocaleDateString('en-US', { 
@@ -171,7 +187,10 @@ const Finance = () => {
                 <div className="inquiry-dropdown-container">
                   <div 
                     className="inquiry-dropdown"
-                    onClick={() => setShowDailyDropdown(!showDailyDropdown)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setShowDailyDropdown(!showDailyDropdown);
+                    }}
                   >
                     <i className="bi bi-chevron-down"></i>
                   </div>
@@ -181,7 +200,10 @@ const Finance = () => {
                         <div 
                           key={index}
                           className="inquiry-dropdown-item"
-                          onClick={() => handleDaySelection(day.value)}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleDaySelection(day.value);
+                          }}
                         >
                           {day.label}
                         </div>
@@ -219,7 +241,11 @@ const Finance = () => {
                 <div className="row">
                   {monthlyData.map((item, index) => (
                     <div key={index} className="col-lg-2 col-md-4 col-sm-6 mb-3">
-                      <div className="monthly-performance-item">
+                      <div 
+                        className="monthly-performance-item"
+                        onClick={() => navigate('/sales')}
+                        style={{ cursor: 'pointer' }}
+                      >
                         <div className="monthly-performance-content">
                           <div className="monthly-performance-left">
                             <h6 className="mb-1">{item.month}</h6>
@@ -273,7 +299,12 @@ const Finance = () => {
                       {departmentData.map((dept, index) => {
                         const margin = ((dept.profit / dept.revenue) * 100).toFixed(1);
                         return (
-                          <tr key={index}>
+                          <tr 
+                            key={index}
+                            onClick={() => navigate('/inventory')}
+                            style={{ cursor: 'pointer' }}
+                            className="table-row-hover"
+                          >
                             <td>
                               <div className="d-flex align-items-center">
                                 <div className={`bg-${dept.color} bg-opacity-10 rounded-circle me-2 d-flex align-items-center justify-content-center`} 

@@ -43,7 +43,7 @@
   --accent-purple-light: #8b5cf6;
   --accent-purple-lighter: #a78bfa;
 
-  --accent-pink: #ec4899;
+  --accent-pink: #f82b92;
   --accent-pink-light: #f472b6;
   --accent-pink-lighter: #f8f3f6;
  
@@ -108,6 +108,7 @@
 .text-warning { color: var(--warning); }
 .text-error { color: var(--error); }
 .text-info { color: var(--info); }
+.text-pink { color: var(--accent-pink); }
 
 .bg-primary { background-color: var(--primary-500); }
 .bg-primary-light { background-color: var(--primary-100); }
@@ -121,6 +122,7 @@
 .bg-warning { background-color: var(--warning); }
 .bg-error { background-color: var(--error); }
 .bg-info { background-color: var(--info); }
+.bg-pink { background-color: var(--accent-pink); }
 
 .bg-gradient-primary { background: var(--gradient-primary); }
 .bg-gradient-secondary { background: var(--gradient-secondary); }
@@ -128,6 +130,7 @@
 .bg-gradient-warning { background: var(--gradient-warning); }
 .bg-gradient-error { background: var(--gradient-error); }
 .bg-gradient-purple { background: var(--gradient-purple); }
+.bg-gradient-pink { background: var(--gradient-pink); }
 
 .border-primary { border-color: var(--primary-300); }
 .border-secondary { border-color: var(--secondary-300); }

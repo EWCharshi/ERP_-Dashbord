@@ -146,3 +146,27 @@
     font-size: 1.5rem;
   }
 }
+
+/* Table Row Hover Effects */
+.table-row-hover:hover {
+  background-color: rgba(59, 130, 246, 0.05) !important;
+  transform: translateX(2px);
+  transition: all 0.2s ease;
+}
+
+.table-row-hover:hover td {
+  border-color: rgba(59, 130, 246, 0.1);
+}
+
+/* Card Hover Effects */
+.inquiry-card:hover {
+  transform: translateY(-2px) scale(1.02);
+  transition: all 0.3s ease;
+}
+
+.monthly-performance-item:hover {
+  background-color: rgba(59, 130, 246, 0.05);
+  border-radius: 8px;
+  transform: translateY(-2px);
+  transition: all 0.2s ease;
+}

@@ -44,6 +44,9 @@ function App() {
         <Route path="/sales" element={<Sales />} />
         <Route path="/finance" element={<Finance />} />
         <Route path="/reports" element={<Reports />} />
+        <Route path="/crm" element={<Dashboard />} />
+        <Route path="/jobs" element={<Dashboard />} />
+        <Route path="/hrm" element={<Dashboard />} />
       </Routes>
     </div>
   )
