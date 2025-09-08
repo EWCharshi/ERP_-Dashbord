@@ -12,51 +12,148 @@ const Finance = () => {
   const [dateRange, setDateRange] = useState('month'); // 'day', 'week', 'month', 'quarter', 'year'
   const [showMonthlyDropdown, setShowMonthlyDropdown] = useState(false);
   const [showDailyDropdown, setShowDailyDropdown] = useState(false);
+  
+  // API data state
+  const [apiData, setApiData] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  // Monthly comparison data
-  const monthlyData = [
-    { month: 'May 2025', inquiries: 386, color: 'primary' },
-    { month: 'Jun 2025', inquiries: 234, color: 'success' },
-    { month: 'Followed', inquiries: 217, color: 'info' },
-    { month: 'Appointments', inquiries: 160, color: 'warning' },
-    { month: 'Jobs', inquiries: 67, color: 'danger' }
-  ];
+  // Fallback data for when API fails
+  const getFallbackData = () => ({
+    scope: "month",
+    period: {
+      month: "2025-06",
+      label: "Jun, 2025"
+    },
+    widgets: {
+      inquiries_month_total: 2195,
+      inquiries_day_total: null
+    },
+    comparison: {
+      current_month: {
+        month: "2025-06",
+        inquiries: 2195
+      },
+      previous_month: {
+        month: "2025-05",
+        inquiries: 2030
+      }
+    },
+    funnel: {
+      followed_up: 1357,
+      appointments: 211,
+      jobs_done: 260,
+      cancel_appointments: 45,
+      rates: {
+        appointments_per_inquiry: 0.096,
+        cancel_appointments_per_inquiry: 0.021,
+        jobs_per_inquiry: 0.118
+      }
+    },
+    salespeople: {
+      rows: [
+        {
+          id: "3",
+          name: "Gamage",
+          inquiries: 435,
+          appointments: 33,
+          cancel_appointments: 6,
+          jobs_done: 54
+        },
+        {
+          id: "4",
+          name: "Nissanka",
+          inquiries: 448,
+          appointments: 34,
+          cancel_appointments: 8,
+          jobs_done: 45
+        },
+        {
+          id: "19",
+          name: "Pathum",
+          inquiries: 383,
+          appointments: 42,
+          cancel_appointments: 9,
+          jobs_done: 40
+        },
+        {
+          id: "11",
+          name: "Prasanna",
+          inquiries: 438,
+          appointments: 39,
+          cancel_appointments: 13,
+          jobs_done: 48
+        },
+        {
+          id: "7",
+          name: "Musthak",
+          inquiries: 480,
+          appointments: 62,
+          cancel_appointments: 9,
+          jobs_done: 68
+        },
+        {
+          id: "2",
+          name: "Corporate",
+          inquiries: 6,
+          appointments: 1,
+          cancel_appointments: 0,
+          jobs_done: 3
+        },
+        {
+          id: "20",
+          name: "Yohan",
+          inquiries: 5,
+          appointments: 0,
+          cancel_appointments: 0,
+          jobs_done: 2
+        }
+      ],
+      totals: {
+        inquiries: 2195,
+        appointments: 211,
+        cancel_appointments: 45,
+        jobs_done: 260
+      }
+    }
+  });
 
-  // Financial performance by department
-  const departmentData = [
-    { name: 'Samantha', revenue: 22, expenses: 21, profit: 22, color: 'success' },
-    { name: 'Gamage', revenue: 23, expenses: 18, profit: 15, color: 'primary' },
-    { name: 'Yasitha Perera', revenue: 22, expenses: 15, profit: 13, color: 'info' },
-    { name: 'Debra Myers', revenue: 12, expenses: 12, profit: 10, color: 'warning' }
-  ];
-
-  // Date formatting function
-  const formatDateDisplay = () => {
-    switch (dateRange) {
-      case 'day':
-        return selectedDate.toLocaleDateString('en-US', { 
-          weekday: 'short', 
-          month: 'short', 
-          day: 'numeric' 
-        });
-      case 'week':
-        const startOfWeek = new Date(selectedDate);
-        startOfWeek.setDate(selectedDate.getDate() - selectedDate.getDay());
-        const endOfWeek = new Date(startOfWeek);
-        endOfWeek.setDate(startOfWeek.getDate() + 6);
-        return `${startOfWeek.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} - ${endOfWeek.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`;
-      case 'month':
-        return selectedDate.toLocaleDateString('en-US', { 
-          month: 'long', 
-          year: 'numeric' 
-        });
-      case 'quarter':
-        const quarter = Math.floor(selectedDate.getMonth() / 3) + 1;
-        return `Q${quarter} ${selectedDate.getFullYear()}`;
-      case 'year':
-        return selectedDate.getFullYear().toString();
-      default:
-        return selectedDate.toLocaleDateString();
+  // API call function
+  const fetchFinanceData = async (scope = 'month', month = null) => {
+    setLoading(true);
+    setError(null);
+    
+    try {
+      const baseUrl = 'https://mgtapi.ecw.lk/api';
+      let url = `${baseUrl}/v1/crm/dashboard/?scope=${scope}&tz=Asia/Colombo&include=salespeople,comparison,funnel`;
+      
+      if (month) {
+        url += `&month=${month}`;
+      }
+      
+      // Add timeout to fetch request
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+      
+      const response = await fetch(url, {
+        signal: controller.signal
+      });
+      
+      clearTimeout(timeoutId);
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      const data = await response.json();
+      setApiData(data.data);
+    } catch (err) {
+      console.error('Error fetching finance data:', err);
+      setError(err.message);
+      // Use fallback data when API fails
+      setApiData(getFallbackData());
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -93,6 +190,64 @@ const Finance = () => {
     return days.reverse();
   };
 
+  // Monthly comparison data from API
+  const getMonthlyData = () => {
+    if (!apiData || !apiData.comparison || !apiData.funnel) return [];
+    
+    const { comparison, funnel } = apiData;
+    return [
+      { month: 'Current Month', inquiries: comparison.current_month?.inquiries || 0, color: 'primary' },
+      { month: 'Previous Month', inquiries: comparison.previous_month?.inquiries || 0, color: 'success' },
+      { month: 'Followed Up', inquiries: funnel.followed_up || 0, color: 'info' },
+      { month: 'Appointments', inquiries: funnel.appointments || 0, color: 'warning' },
+      { month: 'Jobs Done', inquiries: funnel.jobs_done || 0, color: 'danger' }
+    ];
+  };
+
+  // Salespeople data from API
+  const getSalespeopleData = () => {
+    if (!apiData?.salespeople?.rows || !Array.isArray(apiData.salespeople.rows)) return [];
+    
+    const colors = ['success', 'primary', 'info', 'warning', 'danger', 'secondary', 'dark'];
+    return apiData.salespeople.rows.map((person, index) => ({
+      name: person.name || 'Unknown',
+      inquiries: person.inquiries || 0,
+      appointments: person.appointments || 0,
+      jobs: person.jobs_done || 0,
+      color: colors[index % colors.length]
+    }));
+  };
+
+  // Date formatting function
+  const formatDateDisplay = () => {
+    switch (dateRange) {
+      case 'day':
+        return selectedDate.toLocaleDateString('en-US', { 
+          weekday: 'short', 
+          month: 'short', 
+          day: 'numeric' 
+        });
+      case 'week':
+        const startOfWeek = new Date(selectedDate);
+        startOfWeek.setDate(selectedDate.getDate() - selectedDate.getDay());
+        const endOfWeek = new Date(startOfWeek);
+        endOfWeek.setDate(startOfWeek.getDate() + 6);
+        return `${startOfWeek.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} - ${endOfWeek.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`;
+      case 'month':
+        return selectedDate.toLocaleDateString('en-US', { 
+          month: 'long', 
+          year: 'numeric' 
+        });
+      case 'quarter':
+        const quarter = Math.floor(selectedDate.getMonth() / 3) + 1;
+        return `Q${quarter} ${selectedDate.getFullYear()}`;
+      case 'year':
+        return selectedDate.getFullYear().toString();
+      default:
+        return selectedDate.toLocaleDateString();
+    }
+  };
+
   // Handle month selection
   const handleMonthSelection = (monthValue) => {
     const [year, month] = monthValue.split('-');
@@ -105,6 +260,12 @@ const Finance = () => {
     setSelectedDate(new Date(dayValue));
     setShowDailyDropdown(false);
   };
+
+  // Fetch data on component mount and when date changes
+  useEffect(() => {
+    const monthString = selectedDate.toISOString().slice(0, 7); // YYYY-MM format
+    fetchFinanceData(dateRange, monthString);
+  }, [selectedDate, dateRange]);
 
   // Close dropdowns when clicking outside
   useEffect(() => {
@@ -124,6 +285,41 @@ const Finance = () => {
   return (
     <div className="page">
       <div className="container-fluid py-4">
+        {loading && (
+          <div className="d-flex justify-content-center align-items-center py-5">
+            <div className="text-center">
+              <div className="spinner-border text-primary" role="status">
+                <span className="visually-hidden">Loading...</span>
+              </div>
+              <p className="mt-2 text-muted">Loading finance data...</p>
+            </div>
+          </div>
+        )}
+        
+        {!loading && (
+          <>
+            {error && (
+              <div className="alert alert-info" role="alert">
+                <div className="d-flex justify-content-between align-items-center">
+                  <div>
+                    <i className="bi bi-info-circle me-2"></i>
+                    <strong>Offline Mode:</strong> Showing sample data. API connection failed.
+                    <br />
+                    <small className="text-muted">Error: {error}</small>
+                  </div>
+                  <button 
+                    className="btn btn-outline-primary btn-sm"
+                    onClick={() => {
+                      const monthString = selectedDate.toISOString().slice(0, 7);
+                      fetchFinanceData(dateRange, monthString);
+                    }}
+                  >
+                    <i className="bi bi-arrow-clockwise me-1"></i>
+                    Retry
+                  </button>
+                </div>
+              </div>
+            )}
         
 
         {/* Financial Summary Cards */}
@@ -151,7 +347,7 @@ const Finance = () => {
                       {generateMonthOptions().map((month, index) => (
                         <div 
                           key={index}
-                          className="inquiry-dropdown-item"
+                          className={`inquiry-dropdown-item ${apiData?.period?.month === month.value ? 'active' : ''}`}
                           onClick={(e) => {
                             e.stopPropagation();
                             handleMonthSelection(month.value);
@@ -164,7 +360,17 @@ const Finance = () => {
                   )}
                 </div>
               </div>
-              <div className="inquiry-value">234</div>
+              <div className="inquiry-value">
+                {loading ? (
+                  <div className="spinner-border spinner-border-sm" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                  </div>
+                ) : error ? (
+                  <span className="text-danger">Error</span>
+                ) : (
+                  apiData?.widgets?.inquiries_month_total || 0
+                )}
+              </div>
               <div className="inquiry-label">Inquiries</div>
               <div className="inquiry-underline"></div>
             </div>
@@ -212,7 +418,17 @@ const Finance = () => {
                   )}
                 </div>
               </div>
-              <div className="inquiry-value">14</div>
+              <div className="inquiry-value">
+                {loading ? (
+                  <div className="spinner-border spinner-border-sm" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                  </div>
+                ) : error ? (
+                  <span className="text-danger">Error</span>
+                ) : (
+                  apiData?.widgets?.inquiries_day_total || 0
+                )}
+              </div>
               <div className="inquiry-label">Inquiries</div>
               <div className="inquiry-underline"></div>
             </div>
@@ -229,17 +445,28 @@ const Finance = () => {
                 <div className="d-flex justify-content-between align-items-center">
                   <h5 className="card-title mb-0">Monthly Financial Performance</h5>
                   <div className="d-flex gap-2">
-                    <select className="form-select form-select-sm" style={{ width: 'auto' }}>
-                      <option>Jun 2025</option>
-                      <option>May 2025</option>
-                      <option>Apr 2025</option>
+                    <select 
+                      className="form-select form-select-sm" 
+                      style={{ width: 'auto' }}
+                      value={apiData?.period?.month || '2025-06'}
+                      onChange={(e) => {
+                        const selectedMonth = e.target.value;
+                        const [year, month] = selectedMonth.split('-');
+                        setSelectedDate(new Date(year, month - 1, 1));
+                      }}
+                    >
+                      {generateMonthOptions().map((month, index) => (
+                        <option key={index} value={month.value}>
+                          {month.label}
+                        </option>
+                      ))}
                     </select>
                   </div>
                 </div>
               </div>
               <div className="card-body">
                 <div className="row">
-                  {monthlyData.map((item, index) => (
+                  {getMonthlyData().map((item, index) => (
                     <div key={index} className="col-lg-2 col-md-4 col-sm-6 mb-3">
                       <div 
                         className="monthly-performance-item"
@@ -255,11 +482,11 @@ const Finance = () => {
                             <div className={`progress`} style={{ height: '8px' }}>
                               <div 
                                 className={`progress-bar bg-${item.color}`}
-                                style={{ width: `${(item.inquiries / 400) * 100}%` }}
+                                style={{ width: `${Math.min((item.inquiries / 2500) * 100, 100)}%` }}
                                 role="progressbar"
                                 aria-valuenow={item.inquiries}
                                 aria-valuemin="0"
-                                aria-valuemax="400"
+                                aria-valuemax="2500"
                               >
                               </div>
                             </div>
@@ -281,7 +508,7 @@ const Finance = () => {
               <div className="card-header bg-white border-0">
                 <div className="d-flex justify-content-between align-items-center">
                   <h5 className="card-title mb-0 me-2">Follow - Ups </h5>
-                  <span className="badge bg-primary">Jun 2025</span>
+                  <span className="badge bg-primary">{apiData?.period?.label || 'Jun 2025'}</span>
                 </div>
               </div>
               <div className="card-body p-0">
@@ -296,8 +523,7 @@ const Finance = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {departmentData.map((dept, index) => {
-                        const margin = ((dept.profit / dept.revenue) * 100).toFixed(1);
+                      {getSalespeopleData().map((person, index) => {
                         return (
                           <tr 
                             key={index}
@@ -307,26 +533,26 @@ const Finance = () => {
                           >
                             <td>
                               <div className="d-flex align-items-center">
-                                <div className={`bg-${dept.color} bg-opacity-10 rounded-circle me-2 d-flex align-items-center justify-content-center`} 
+                                <div className={`bg-${person.color} bg-opacity-10 rounded-circle me-2 d-flex align-items-center justify-content-center`} 
                                      style={{ width: '12px', height: '12px' }}>
-                                  <i className={`bi bi-building text-${dept.color}`}></i>
+                                  <i className={`bi bi-person text-${person.color}`}></i>
                                 </div>
-                                <span className="fw-semibold">{dept.name}</span>
+                                <span className="fw-semibold">{person.name}</span>
                               </div>
                             </td>
                             <td className="text-end">
                               <span className="text-success fw-semibold">
-                                ${dept.revenue.toLocaleString()}
+                                {person.inquiries.toLocaleString()}
                               </span>
                             </td>
                             <td className="text-end">
-                              <span className="text-danger fw-semibold">
-                                ${dept.expenses.toLocaleString()}
+                              <span className="text-warning fw-semibold">
+                                {person.appointments.toLocaleString()}
                               </span>
                             </td>
                             <td className="text-end">
                               <span className="text-primary fw-semibold">
-                                ${dept.profit.toLocaleString()}
+                                {person.jobs.toLocaleString()}
                               </span>
                             </td>
                             
@@ -338,13 +564,13 @@ const Finance = () => {
                       <tr>
                         <th>Total</th>
                         <th className="text-end text-success">
-                          ${departmentData.reduce((sum, dept) => sum + dept.revenue, 0).toLocaleString()}
+                          {apiData?.salespeople?.totals?.inquiries?.toLocaleString() || 0}
                         </th>
-                        <th className="text-end text-danger">
-                          ${departmentData.reduce((sum, dept) => sum + dept.expenses, 0).toLocaleString()}
+                        <th className="text-end text-warning">
+                          {apiData?.salespeople?.totals?.appointments?.toLocaleString() || 0}
                         </th>
                         <th className="text-end text-primary">
-                          ${departmentData.reduce((sum, dept) => sum + dept.profit, 0).toLocaleString()}
+                          {apiData?.salespeople?.totals?.jobs_done?.toLocaleString() || 0}
                         </th>
                        
                       </tr>
@@ -355,8 +581,8 @@ const Finance = () => {
             </div>
           </div>
         </div>
-
-       
+          </>
+        )}
       </div>
     </div>
   );
